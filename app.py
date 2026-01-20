@@ -24,6 +24,7 @@ if uploaded_file and aws_key and aws_secret:
     if st.button("Read Bill"):
         with st.spinner('Reading...'):
             try:
+                # This block must be indented exactly 4 spaces
                 response = client.analyze_document(
                     Document={'Bytes': uploaded_file.getvalue()},
                     FeatureTypes=['QUERIES'],
@@ -33,3 +34,8 @@ if uploaded_file and aws_key and aws_secret:
                     ]}
                 )
                 res = response['QueriesConfigCustomPages'][0]['Results']
+                st.success(f"Total Amount: {res[0]['Text']}")
+                st.write(f"Hospital: {res[1]['Text']}")
+            except Exception as e:
+                # The 'except' must line up perfectly with 'try'
+                st.error(f"Error: {e}")
